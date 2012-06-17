@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IronInstruments", "IronInstruments\IronInstruments.csproj", "{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythonConsoleControl", "PythonConsoleControl\PythonConsoleControl.csproj", "{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}.Debug|x86.ActiveCfg = Debug|x86
+		{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}.Debug|x86.Build.0 = Debug|x86
+		{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}.Release|Any CPU.ActiveCfg = Release|x86
+		{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}.Release|x86.ActiveCfg = Release|x86
+		{80C261A1-2E6E-47B7-B3A0-0FA8727CDEDA}.Release|x86.Build.0 = Release|x86
+		{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F1152D68-346B-4F48-8DB7-BE67B5CB1F49}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
