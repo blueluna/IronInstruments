@@ -22,11 +22,18 @@ namespace IronInstruments
         public MainWindow()
         {
             InitializeComponent();
+
+            this.DataContext = Workspace.This;
         }
 
         private void doExit(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void doExecuteFile(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
