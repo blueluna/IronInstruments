@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Main.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AvalonDock">
       <HintPath>AvalonDock\AvalonDock.dll</HintPath>
@@ -71,7 +74,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ActiveDocumentConverter.cs" />
-    <Compile Include="EditorConverter.cs" />
     <Compile Include="FileViewModel.cs" />
     <Compile Include="PanesStyleSelector.cs" />
     <Compile Include="PanesTemplateSelector.cs" />
@@ -115,6 +117,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <EmbeddedResource Include="Resources\Python.xshd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ICSharpCode.AvalonEdit\ICSharpCode.AvalonEdit.csproj">
@@ -128,6 +131,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\document.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Main.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Main.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

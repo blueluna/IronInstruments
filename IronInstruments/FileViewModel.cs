@@ -34,37 +34,39 @@ namespace IronInstruments
                 {
                     _filePath = value;
                     RaisePropertyChanged("FilePath");
-                    RaisePropertyChanged("FileName");
-                    RaisePropertyChanged("Title");
+                    FileName = System.IO.Path.GetFileName(FilePath);
                 }
             }
         }
         #endregion
 
+        #region FileName
 
+        private string _fileName = "Untitled";
         public string FileName
         {
             get 
             {
-                string filename;
-                if (FilePath == null)
+                return _fileName;
+            }
+            set
+            {
+                if (_fileName != value)
                 {
-                    filename = "Untitled" + (IsModified ? "*" : "");
+                    _fileName = value;
+                    RaisePropertyChanged("FileName");
+                    updateTitle();
                 }
-                else
-                {
-                    filename = System.IO.Path.GetFileName(FilePath) + (IsModified ? "*" : "");
-                }
-                RaisePropertyChanged("Title");
-                return filename;
             }
         }
+
+        #endregion
 
         public override Uri IconSource
         {
             get
             {
-                return new Uri("/IronInstruments;component/Images/document.png", UriKind.RelativeOrAbsolute);
+                return new Uri("/IronInstruments;Images/document.png", UriKind.RelativeOrAbsolute);
             }
         }
 
@@ -89,7 +91,7 @@ namespace IronInstruments
                     _document.UndoStack.ClearAll();
                     _document.UndoStack.MarkAsOriginalFile();
 
-                    _document.Changed += onTextChanged;
+                    _document.UpdateFinished += onUpdateFinished;
 
                     RaisePropertyChanged("Document");
                 }
@@ -97,27 +99,31 @@ namespace IronInstruments
         }
         #endregion
 
-        private void onTextChanged(object sender, EventArgs e)
+        private void onUpdateFinished(object sender, EventArgs e)
         {
-            bool canUndo = _document.UndoStack.CanUndo;
-            IsModified = canUndo;
+            RaisePropertyChanged("IsModified");
+            updateTitle();
         }
 
         #region IsModified
-        private bool _isModified = false;
         public bool IsModified
         {
             get {
-                return _isModified;
-            }
-            set {
-                if (_isModified != value) {
-                    _isModified = value;
-                    Title = FileName;
+                if (_document != null)
+                {
+                    return !_document.UndoStack.IsOriginalFile;
+                }
+                else {
+                    return false;
                 }
             }
         }
         #endregion
+
+        private void updateTitle()
+        {
+            Title = _fileName + (IsModified ? "*" : "");
+        }
 
         #region SaveCommand
         RelayCommand _saveCommand = null;
@@ -136,7 +142,7 @@ namespace IronInstruments
 
         private bool CanSave(object parameter)
         {
-            return IsModified;
+            return IsModified && FilePath != null;
         }
 
         private void OnSave(object parameter)
@@ -199,5 +205,47 @@ namespace IronInstruments
         }
         #endregion
 
+        #region ExecuteCommand
+        RelayCommand _executeCommand = null;
+        public ICommand ExecuteCommand
+        {
+            get
+            {
+                if (_executeCommand == null)
+                {
+                    _executeCommand = new RelayCommand((p) => OnClose(), (p) => CanClose());
+                }
+
+                return _executeCommand;
+            }
+        }
+
+        private bool CanExecute()
+        {
+            return true;
+        }
+
+        private void OnExecute()
+        {
+            Workspace.This.Execute(this);
+        }
+        #endregion
+
+        public void Save(string filepath)
+        {
+            File.WriteAllText(filepath, _document.Text);
+            _document.UndoStack.MarkAsOriginalFile();
+            if (filepath != _filePath)
+            {
+                FilePath = filepath;
+            }
+            RaisePropertyChanged("IsModified");
+            updateTitle();
+        }
+
+        public void Save()
+        {
+            Save(_filePath);
+        }
     }
 }

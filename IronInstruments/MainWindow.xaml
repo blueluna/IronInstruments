@@ -5,23 +5,22 @@
         xmlns:avalonEdit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
         xmlns:console="clr-namespace:PythonConsoleControl;assembly=PythonConsoleControl"
         xmlns:local="clr-namespace:IronInstruments"
-        Title="MainWindow" Height="451" Width="687" >
+        Title="MainWindow" Height="451" Width="687" Icon="pack://application:,,,/Resources/Main.ico">
     <Window.Resources>
         <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
         <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-        <local:EditorConverter x:Key="EditorConverter"/>
     </Window.Resources>
     <Grid>
         <DockPanel HorizontalAlignment="Stretch" Name="mainDock" VerticalAlignment="Stretch">
             <Menu Height="23" Name="menu" DockPanel.Dock="Top">
                 <MenuItem Header="File" Name="menuFile">
-                    <MenuItem Header="New" Command="{Binding NewCommand}"/>
+                    <MenuItem Header="New" Command="{Binding NewCommand}" InputGestureText="Ctrl-N"/>
                     <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
                     <Separator/>
-                    <MenuItem Header="Close" Command="{Binding Model.CloseCommand}"/>
+                    <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}"/>
                     <Separator/>
-                    <MenuItem Header="Save" Command="{Binding Model.SaveCommand}"/>
-                    <MenuItem Header="Save As..." Command="{Binding Model.SaveAsCommand}"/>
+                    <MenuItem Header="Save" Command="{Binding ActiveDocument.SaveCommand}"/>
+                    <MenuItem Header="Save As..." Command="{Binding ActiveDocument.SaveAsCommand}"/>
                     <Separator/>
                     <MenuItem Header="Exit" Name="menuFileExit" Click="doExit" />
                 </MenuItem>
@@ -36,7 +35,7 @@
                     <local:PanesTemplateSelector>
                         <local:PanesTemplateSelector.FileViewTemplate>
                             <DataTemplate>
-                                <avalonEdit:TextEditor FontFamily="Consolas" FontSize="12" Document="{Binding Document, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <avalonEdit:TextEditor FontFamily="Consolas" FontSize="12" Document="{Binding Document, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SyntaxHighlighting="Python Highlighting" />
                             </DataTemplate>
                         </local:PanesTemplateSelector.FileViewTemplate>
                     </local:PanesTemplateSelector>

@@ -130,7 +130,6 @@ namespace IronInstruments
 
         #endregion
 
-
         internal void Close(FileViewModel fileToClose)
         {
             if (fileToClose.IsModified)
@@ -153,10 +152,19 @@ namespace IronInstruments
             {
                 var dlg = new SaveFileDialog();
                 if (dlg.ShowDialog().GetValueOrDefault())
-                    fileToSave.FilePath = dlg.FileName;
+                {
+                    fileToSave.Save(dlg.FileName);
+                }
             }
+            else
+            {
+                fileToSave.Save();
+            }
+        }
 
-            File.WriteAllText(fileToSave.FilePath, fileToSave.Document.Text);
+        internal void Execute(FileViewModel fileToClose)
+        {
+
         }
     }
 }
