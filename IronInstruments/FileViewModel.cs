@@ -20,7 +20,6 @@ namespace IronInstruments
 
         public FileViewModel()
         {
-            IsDirty = true;
             Title = FileName;
         }
 
@@ -37,12 +36,6 @@ namespace IronInstruments
                     RaisePropertyChanged("FilePath");
                     RaisePropertyChanged("FileName");
                     RaisePropertyChanged("Title");
-
-                    if (File.Exists(_filePath))
-                    {
-                        TextContent = File.ReadAllText(_filePath);
-                        ContentId = _filePath;
-                    }
                 }
             }
         }
@@ -53,10 +46,17 @@ namespace IronInstruments
         {
             get 
             {
+                string filename;
                 if (FilePath == null)
-                    return "Untitled" + (IsDirty ? "*" : "");
-
-                return System.IO.Path.GetFileName(FilePath) + (IsDirty ? "*" : ""); 
+                {
+                    filename = "Untitled" + (IsModified ? "*" : "");
+                }
+                else
+                {
+                    filename = System.IO.Path.GetFileName(FilePath) + (IsModified ? "*" : "");
+                }
+                RaisePropertyChanged("Title");
+                return filename;
             }
         }
 
@@ -69,7 +69,7 @@ namespace IronInstruments
         }
 
         #region Document
-        private TextDocument _document = new TextDocument();
+        private TextDocument _document = null;
         public TextDocument Document
         {
             get { return _document; }
@@ -78,48 +78,45 @@ namespace IronInstruments
                 if (_document != value)
                 {
                     _document = value;
+
+                    _document.BeginUpdate();
+                    if (File.Exists(_filePath))
+                    {
+                        _document.Text = File.ReadAllText(_filePath);
+                        ContentId = _filePath;
+                    }
+                    _document.EndUpdate();
+                    _document.UndoStack.ClearAll();
+                    _document.UndoStack.MarkAsOriginalFile();
+
+                    _document.Changed += onTextChanged;
+
                     RaisePropertyChanged("Document");
                 }
             }
         }
         #endregion
 
-        #region TextContent
-
-        public string TextContent
+        private void onTextChanged(object sender, EventArgs e)
         {
-            get { return _document.Text; }
-            set
-            {
-                if (_document.Text != value)
-                {
-                    _document.Text = value;
-                    RaisePropertyChanged("TextContent");
-                    RaisePropertyChanged("Document");
-                    IsDirty = true;
+            bool canUndo = _document.UndoStack.CanUndo;
+            IsModified = canUndo;
+        }
+
+        #region IsModified
+        private bool _isModified = false;
+        public bool IsModified
+        {
+            get {
+                return _isModified;
+            }
+            set {
+                if (_isModified != value) {
+                    _isModified = value;
+                    Title = FileName;
                 }
             }
         }
-
-        #endregion
-
-        #region IsDirty
-
-        private bool _isDirty = false;
-        public bool IsDirty
-        {
-            get { return _isDirty; }
-            set
-            {
-                if (_isDirty != value)
-                {
-                    _isDirty = value;
-                    RaisePropertyChanged("IsDirty");
-                    RaisePropertyChanged("FileName");
-                }
-            }
-        }
-
         #endregion
 
         #region SaveCommand
@@ -139,7 +136,7 @@ namespace IronInstruments
 
         private bool CanSave(object parameter)
         {
-            return IsDirty;
+            return IsModified;
         }
 
         private void OnSave(object parameter)
@@ -166,7 +163,7 @@ namespace IronInstruments
 
         private bool CanSaveAs(object parameter)
         {
-            return IsDirty;
+            return IsModified;
         }
 
         private void OnSaveAs(object parameter)

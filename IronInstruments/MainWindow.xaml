@@ -18,6 +18,11 @@
                     <MenuItem Header="New" Command="{Binding NewCommand}"/>
                     <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
                     <Separator/>
+                    <MenuItem Header="Close" Command="{Binding Model.CloseCommand}"/>
+                    <Separator/>
+                    <MenuItem Header="Save" Command="{Binding Model.SaveCommand}"/>
+                    <MenuItem Header="Save As..." Command="{Binding Model.SaveAsCommand}"/>
+                    <Separator/>
                     <MenuItem Header="Exit" Name="menuFileExit" Click="doExit" />
                 </MenuItem>
                 <MenuItem Header="Scripting" Name="menuScripting">
@@ -31,7 +36,7 @@
                     <local:PanesTemplateSelector>
                         <local:PanesTemplateSelector.FileViewTemplate>
                             <DataTemplate>
-                                <avalonEdit:TextEditor Document="{Binding Document, Mode=TwoWay, Converter={StaticResource EditorConverter}}" />
+                                <avalonEdit:TextEditor FontFamily="Consolas" FontSize="12" Document="{Binding Document, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </DataTemplate>
                         </local:PanesTemplateSelector.FileViewTemplate>
                     </local:PanesTemplateSelector>

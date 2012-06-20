@@ -43,6 +43,10 @@
     <Reference Include="AvalonDock.Themes.VS2010">
       <HintPath>AvalonDock\AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PythonConsoleControl\RequiredLibraries\IronPython\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />

@@ -133,7 +133,7 @@ namespace IronInstruments
 
         internal void Close(FileViewModel fileToClose)
         {
-            if (fileToClose.IsDirty)
+            if (fileToClose.IsModified)
             {
                 var res = MessageBox.Show(string.Format("Save changes for file '{0}'?", fileToClose.FileName), "AvalonDock Test App", MessageBoxButton.YesNoCancel);
                 if (res == MessageBoxResult.Cancel)
@@ -153,11 +153,10 @@ namespace IronInstruments
             {
                 var dlg = new SaveFileDialog();
                 if (dlg.ShowDialog().GetValueOrDefault())
-                    fileToSave.FilePath = dlg.SafeFileName;
+                    fileToSave.FilePath = dlg.FileName;
             }
 
-            File.WriteAllText(fileToSave.FilePath, fileToSave.TextContent);
-            ActiveDocument.IsDirty = false;
+            File.WriteAllText(fileToSave.FilePath, fileToSave.Document.Text);
         }
     }
 }

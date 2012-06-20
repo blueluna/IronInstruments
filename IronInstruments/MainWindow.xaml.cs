@@ -33,7 +33,7 @@ namespace IronInstruments
 
         private void doExecuteFile(object sender, RoutedEventArgs e)
         {
-
+            console.Pad.Console.RunStatements(Workspace.This.ActiveDocument.Document.Text);
         }
     }
 }
