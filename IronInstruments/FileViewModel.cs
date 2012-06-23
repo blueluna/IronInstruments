@@ -24,6 +24,7 @@ namespace IronInstruments
         }
 
         #region FilePath
+
         private string _filePath = null;
         public string FilePath
         {
@@ -38,6 +39,7 @@ namespace IronInstruments
                 }
             }
         }
+
         #endregion
 
         #region FileName
@@ -106,6 +108,7 @@ namespace IronInstruments
         }
 
         #region IsModified
+
         public bool IsModified
         {
             get {
@@ -118,6 +121,7 @@ namespace IronInstruments
                 }
             }
         }
+
         #endregion
 
         private void updateTitle()
@@ -126,26 +130,13 @@ namespace IronInstruments
         }
 
         #region SaveCommand
-        RelayCommand _saveCommand = null;
-        public ICommand SaveCommand
-        {
-            get
-            {
-                if (_saveCommand == null)
-                {
-                    _saveCommand = new RelayCommand((p) => OnSave(p), (p) => CanSave(p));
-                }
 
-                return _saveCommand;
-            }
+        public bool CanSave()
+        {
+            return IsModified;
         }
 
-        private bool CanSave(object parameter)
-        {
-            return IsModified && FilePath != null;
-        }
-
-        private void OnSave(object parameter)
+        public void OnSave()
         {
             Workspace.This.Save(this, false);
         }
@@ -153,26 +144,13 @@ namespace IronInstruments
         #endregion
 
         #region SaveAsCommand
-        RelayCommand _saveAsCommand = null;
-        public ICommand SaveAsCommand
-        {
-            get
-            {
-                if (_saveAsCommand == null)
-                {
-                    _saveAsCommand = new RelayCommand((p) => OnSaveAs(p), (p) => CanSaveAs(p));
-                }
 
-                return _saveAsCommand;
-            }
-        }
-
-        private bool CanSaveAs(object parameter)
+        public bool CanSaveAs()
         {
             return IsModified;
         }
 
-        private void OnSaveAs(object parameter)
+        public void OnSaveAs()
         {
             Workspace.This.Save(this, true);
         }
@@ -180,45 +158,15 @@ namespace IronInstruments
         #endregion
 
         #region CloseCommand
-        RelayCommand _closeCommand = null;
-        public ICommand CloseCommand
-        {
-            get
-            {
-                if (_closeCommand == null)
-                {
-                    _closeCommand = new RelayCommand((p) => OnClose(), (p) => CanClose());
-                }
 
-                return _closeCommand;
-            }
-        }
-
-        private bool CanClose()
-        {
-            return true;
-        }
-
-        private void OnClose()
+        public void OnClose()
         {
             Workspace.This.Close(this);
         }
+
         #endregion
 
         #region ExecuteCommand
-        RelayCommand _executeCommand = null;
-        public ICommand ExecuteCommand
-        {
-            get
-            {
-                if (_executeCommand == null)
-                {
-                    _executeCommand = new RelayCommand((p) => OnClose(), (p) => CanClose());
-                }
-
-                return _executeCommand;
-            }
-        }
 
         private bool CanExecute()
         {
@@ -229,7 +177,10 @@ namespace IronInstruments
         {
             Workspace.This.Execute(this);
         }
+
         #endregion
+
+        #region Save
 
         public void Save(string filepath)
         {
@@ -247,5 +198,7 @@ namespace IronInstruments
         {
             Save(_filePath);
         }
+
+        #endregion
     }
 }

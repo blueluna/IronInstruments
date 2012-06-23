@@ -5,27 +5,42 @@
         xmlns:avalonEdit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
         xmlns:console="clr-namespace:PythonConsoleControl;assembly=PythonConsoleControl"
         xmlns:local="clr-namespace:IronInstruments"
-        Title="MainWindow" Height="451" Width="687" Icon="pack://application:,,,/Resources/Main.ico">
+        Title="MainWindow" Height="451" Width="687"
+        Icon="pack://application:,,,/Resources/Main.ico">
     <Window.Resources>
+        <RoutedUICommand x:Key="ExecuteScript" Text="Do Something" />
         <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
-        <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="NewExecute"/>
+        <CommandBinding Command="Open" Executed="OpenExecute"/>
+        <CommandBinding Command="Close" CanExecute="CloseCanExecute" Executed="CloseExecute"/>
+        <CommandBinding Command="Save" CanExecute="SaveCanExecute" Executed="SaveExecute"/>
+        <CommandBinding Command="SaveAs" CanExecute="SaveAsCanExecute"
+                        Executed="SaveAsExecute"/>
+        <CommandBinding Command="{StaticResource ExecuteScript}" CanExecute="ExecuteScriptCanExecute"
+                        Executed="ExecuteScriptExecute"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Command="{StaticResource ExecuteScript}" Key="F5"/>
+        <KeyBinding Command="Close" Modifiers="Ctrl" Key="W"/>
+    </Window.InputBindings>
     <Grid>
         <DockPanel HorizontalAlignment="Stretch" Name="mainDock" VerticalAlignment="Stretch">
             <Menu Height="23" Name="menu" DockPanel.Dock="Top">
                 <MenuItem Header="File" Name="menuFile">
-                    <MenuItem Header="New" Command="{Binding NewCommand}" InputGestureText="Ctrl-N"/>
-                    <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
+                    <MenuItem Header="New" Command="New" />
+                    <MenuItem Header="Open" Command="Open"/>
                     <Separator/>
-                    <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}"/>
+                    <MenuItem Header="Close" Command="Close"/>
                     <Separator/>
-                    <MenuItem Header="Save" Command="{Binding ActiveDocument.SaveCommand}"/>
-                    <MenuItem Header="Save As..." Command="{Binding ActiveDocument.SaveAsCommand}"/>
+                    <MenuItem Header="Save" Command="Save" CommandTarget="{Binding ActiveDocument}"/>
+                    <MenuItem Header="Save As..." Command="SaveAs" CommandTarget="{Binding ActiveDocument}"/>
                     <Separator/>
                     <MenuItem Header="Exit" Name="menuFileExit" Click="doExit" />
                 </MenuItem>
                 <MenuItem Header="Scripting" Name="menuScripting">
-                    <MenuItem Header="Execute File" Name="menuScriptingExecuteFile" Click="doExecuteFile" />
+                    <MenuItem Header="Execute File" Command="{StaticResource ExecuteScript}" InputGestureText="F5" />
                 </MenuItem>
             </Menu>
             <avalonDock:DockingManager
@@ -47,7 +62,7 @@
                             <Style TargetType="{x:Type avalonDock:LayoutItem}">
                                 <Setter Property="Title" Value="{Binding Model.Title}"/>
                                 <Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>
-                                <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
+                                <Setter Property="CloseCommand" Value="Close"/>
                                 <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
                                 <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
                             </Style>

@@ -10,6 +10,13 @@ namespace IronInstruments
         public PaneViewModel()
         { }
 
+        public virtual Uri IconSource
+        {
+            get
+            {
+                return null;
+            }
+        }
 
         #region Title
 
@@ -28,14 +35,6 @@ namespace IronInstruments
         }
 
         #endregion
-
-        public virtual Uri IconSource
-        {
-            get
-            {
-                return null;
-            }
-        }
 
         #region ContentId
 

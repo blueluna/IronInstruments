@@ -51,9 +51,67 @@ namespace IronInstruments
             Close();
         }
 
-        private void doExecuteFile(object sender, RoutedEventArgs e)
+        private void NewExecute(object sender, ExecutedRoutedEventArgs e)
         {
-            console.Pad.Console.RunStatements(Workspace.This.ActiveDocument.Document.Text);
+            Workspace.This.OnNew(sender, e);
+        }
+
+        private void OpenExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            Workspace.This.OnOpen(sender, e);
+        }
+
+        private void CloseCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = Workspace.This.ActiveDocument != null;
+        }
+
+        private void CloseExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            Workspace.This.ActiveDocument.OnClose();
+        }
+
+        private void SaveCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (Workspace.This.ActiveDocument == null)
+            {
+                e.CanExecute = false;
+                return;
+            }
+            e.CanExecute = Workspace.This.ActiveDocument.CanSave();
+        }
+
+        private void SaveExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            Workspace.This.ActiveDocument.OnSave();
+        }
+
+        private void SaveAsCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (Workspace.This.ActiveDocument == null)
+            {
+                e.CanExecute = false;
+                return;
+            }
+            e.CanExecute = Workspace.This.ActiveDocument.CanSaveAs();
+        }
+
+        private void SaveAsExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            Workspace.This.ActiveDocument.OnSaveAs();
+        }
+
+        private void ExecuteScriptCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = Workspace.This.ActiveDocument != null;
+        }
+
+        private void ExecuteScriptExecute(object sender, RoutedEventArgs e)
+        {
+            if (Workspace.This.ActiveDocument != null)
+            {
+                console.Pad.Console.RunStatements(Workspace.This.ActiveDocument.Document.Text);
+            }
         }
     }
 }

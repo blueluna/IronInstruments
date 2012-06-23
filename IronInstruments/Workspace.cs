@@ -24,6 +24,8 @@ namespace IronInstruments
             get { return _this; }
         }
 
+        #region Files
+
         ObservableCollection<FileViewModel> _files = new ObservableCollection<FileViewModel>();
         ReadOnlyObservableCollection<FileViewModel> _readonyFiles = null;
         public ReadOnlyObservableCollection<FileViewModel> Files
@@ -31,33 +33,16 @@ namespace IronInstruments
             get
             {
                 if (_readonyFiles == null)
+                {
                     _readonyFiles = new ReadOnlyObservableCollection<FileViewModel>(_files);
-
+                }
                 return _readonyFiles;
             }
         }
 
-        #region OpenCommand
-        RelayCommand _openCommand = null;
-        public ICommand OpenCommand
-        {
-            get
-            {
-                if (_openCommand == null)
-                {
-                    _openCommand = new RelayCommand((p) => OnOpen(p), (p) => CanOpen(p));
-                }
+        #endregion
 
-                return _openCommand;
-            }
-        }
-
-        private bool CanOpen(object parameter)
-        {
-            return true;
-        }
-
-        private void OnOpen(object parameter)
+        public void OnOpen(object sender, ExecutedRoutedEventArgs e)
         {
             var dlg = new OpenFileDialog();
             if (dlg.ShowDialog().GetValueOrDefault())
@@ -78,35 +63,11 @@ namespace IronInstruments
             return fileViewModel;
         }
 
-        #endregion 
-
-        #region NewCommand
-        RelayCommand _newCommand = null;
-        public ICommand NewCommand
-        {
-            get
-            {
-                if (_newCommand == null)
-                {
-                    _newCommand = new RelayCommand((p) => OnNew(p), (p) => CanNew(p));
-                }
-
-                return _newCommand;
-            }
-        }
-
-        private bool CanNew(object parameter)
-        {
-            return true;
-        }
-
-        private void OnNew(object parameter)
+        public void OnNew(object sender, ExecutedRoutedEventArgs e)
         {
             _files.Add(new FileViewModel());
             ActiveDocument = _files.Last();
         }
-
-        #endregion 
 
         #region ActiveDocument
 
@@ -142,8 +103,18 @@ namespace IronInstruments
                     Save(fileToClose);
                 }
             }
-
+            bool replaceActive = fileToClose == ActiveDocument;
             _files.Remove(fileToClose);
+            if (replaceActive)
+            {
+                if (_files.Count > 0)
+                {
+                    ActiveDocument = _files.Last();
+                }
+                else {
+                    ActiveDocument = null;
+                }
+            }
         }
 
         internal void Save(FileViewModel fileToSave, bool saveAsFlag = false)
