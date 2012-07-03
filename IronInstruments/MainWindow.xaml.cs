@@ -68,7 +68,7 @@ namespace IronInstruments
 
         private void CloseExecute(object sender, ExecutedRoutedEventArgs e)
         {
-            Workspace.This.ActiveDocument.OnClose();
+            Workspace.This.ActiveDocument.OnClose(sender);
         }
 
         private void SaveCanExecute(object sender, CanExecuteRoutedEventArgs e)

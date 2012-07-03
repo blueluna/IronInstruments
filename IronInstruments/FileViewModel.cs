@@ -159,9 +159,21 @@ namespace IronInstruments
 
         #region CloseCommand
 
-        public void OnClose()
+        public void OnClose(object sender)
         {
             Workspace.This.Close(this);
+        }
+
+        private ACommand _closeCommand = null;
+        public ICommand CloseCommand
+        {
+            get
+            {
+                if (_closeCommand == null) {
+                    _closeCommand = new ACommand(this.OnClose);
+                }
+                return _closeCommand;
+            }
         }
 
         #endregion

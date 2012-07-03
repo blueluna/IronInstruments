@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ACommand.cs" />
     <Compile Include="ActiveDocumentConverter.cs" />
     <Compile Include="FileViewModel.cs" />
     <Compile Include="PanesStyleSelector.cs" />
